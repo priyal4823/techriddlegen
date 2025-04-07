@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Riddle Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a0ca3;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #ef233c;
+            
+            --border-radius: 12px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .subtitle {
+            font-weight: 300;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 2rem;
+            margin-top: 1.5rem;
+            border-radius: 50px;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat i {
+            font-size: 1.2rem;
+        }
+
+        .main-content {
+            padding: 2rem;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        select, input {
+            padding: 0.75rem 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            background-color: white;
+            transition: var(--transition);
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #f0f4ff;
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background-color: #e51779;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .riddle-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f0f0f0;
+            position: relative;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .placeholder {
+            color: var(--gray);
+            font-style: italic;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .riddle-content {
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #riddle-text {
+            color: var(--dark);
+            margin-bottom: 2rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.4rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .answer-container {
+            width: 100%;
+            margin-top: 2rem;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.5s ease;
+        }
+
+        .answer-container.show {
+            max-height: 500px;
+        }
+
+        .answer {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary);
+            text-align: left;
+            margin-top: 1rem;
+        }
+
+        .answer h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(67, 97, 238, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .difficulty-indicator {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+
+        .easy {
+            background-color: rgba(76, 201, 240, 0.2);
+            color: #4cc9f0;
+        }
+
+        .medium {
+            background-color: rgba(248, 150, 30, 0.2);
+            color: #f8961e;
+        }
+
+        .hard {
+            background-color: rgba(239, 35, 60, 0.2);
+            color: #ef233c;
+        }
+
+        .topic-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            background-color: rgba(114, 9, 183, 0.1);
+            color: var(--secondary);
+            margin-right: 0.5rem;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .rating-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .rating-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .rating-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .rating-btn.active {
+            color: var(--warning);
+        }
+
+        .history-container {
+            margin-top: 2rem;
+        }
+
+        .history-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .history-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .history-item {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .history-item-content {
+            flex: 1;
+        }
+
+        .history-item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .empty-history {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray);
+            font-style: italic;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            background-color: var(--success);
+        }
+
+        .toast.error {
+            background-color: var(--danger);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .controls {
+                grid-template-columns: 1fr;
+            }
+            
+            #riddle-text {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Animation classes */
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>
+                <i class="fas fa-robot"></i>
+                Tech Riddle Master
+            </h1>
+            <p class="subtitle">Challenge your technical knowledge with AI-generated riddles and track your progress</p>
+            
+            <div class="stats-bar">
+                <div class="stat">
+                    <i class="fas fa-question-circle"></i>
+                    <span id="total-riddles">0</span> Riddles
+                </div>
+                <div class="stat">
+                    <i class="fas fa-star"></i>
+                    <span id="avg-rating">0</span> Avg Rating
+                </div>
+                <div class="stat">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="correct-answers">0</span> Solved
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="difficulty">Difficulty Level</label>
+                    <select id="difficulty">
+                        <option value="easy">Easy</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="hard">Hard</option>
+                        <option value="expert">Expert</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="topic">Main Topic</label>
+                    <select id="topic">
+                        <option value="programming">Programming</option>
+                        <option value="algorithms">Algorithms</option>
+                        <option value="databases">Databases</option>
+                        <option value="networking">Networking</option>
+                        <option value="cybersecurity">Cybersecurity</option>
+                        <option value="ai">AI/ML</option>
+                        <option value="system-design">System Design</option>
+                        <option value="linux">Linux</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="style">Riddle Style</label>
+                    <select id="style">
+                        <option value="classic">Classic</option>
+                        <option value="humorous">Humorous</option>
+                        <option value="poetic">Poetic</option>
+                        <option value="metaphorical">Metaphorical</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button id="generate-btn" class="btn pulse">
+                    <i class="fas fa-bolt"></i>
+                    Generate Riddle
+                </button>
+                <button id="random-btn" class="btn btn-secondary">
+                    <i class="fas fa-random"></i>
+                    Random Mix
+                </button>
+                <button id="hint-btn" class="btn btn-secondary" disabled>
+                    <i class="fas fa-lightbulb"></i>
+                    Get Hint
+                </button>
+            </div>
+
+            <div class="riddle-container">
+                <div class="loader hidden" id="loader">
+                    <div class="spinner"></div>
+                    <p>Generating your perfect tech riddle...</p>
+                </div>
+                
+                <div class="riddle-display" id="riddle-display">
+                    <p class="placeholder">Click "Generate Riddle" to start the challenge!</p>
+                    <div class="riddle-content hidden" id="riddle-content">
+                        <div class="riddle-meta">
+                            <span class="topic-tag" id="riddle-topic">Programming</span>
+                            <span class="difficulty-indicator medium" id="riddle-difficulty">Medium</span>
+                        </div>
+                        <h2 id="riddle-text"></h2>
+                        
+                        <div class="answer-container" id="answer-container">
+                            <div class="answer">
+                                <h3><i class="fas fa-check-circle"></i> Answer</h3>
+                                <p id="answer"></p>
+                            </div>
+                        </div>
+
+                        <div class="actions">
+                            <div class="rating-buttons">
+                                <button class="rating-btn" data-rating="1"><i class="far fa-star"></i></button>
+                                <button class="rating-btn" data-rating="2"><i class="far fa-star"></i></button>
+                                <button class="rating-btn" data-rating="3"><i class="far fa-star"></i></button>
+                                <button class="rating-btn" data-rating="4"><i class="far fa-star"></i></button>
+                                <button class="rating-btn" data-rating="5"><i class="far fa-star"></i></button>
+                            </div>
+                            
+                            <div>
+                                <button id="show-answer-btn" class="btn btn-accent">
+                                    <i class="fas fa-eye"></i>
+                                    Reveal Answer
+                                </button>
+                                <button id="solve-btn" class="btn">
+                                    <i class="fas fa-check"></i>
+                                    I Solved It!
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="history-container">
+                <div class="history-title">
+                    <h3><i class="fas fa-history"></i> Your Riddle History</h3>
+                    <button id="clear-history" class="btn btn-secondary btn-sm">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                </div>
+                
+                <div class="history-list" id="history-list">
+                    <div class="empty-history">No riddles generated yet. Your history will appear here.</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Powered by DeepSeek LLM API | &copy; 2023 Tech Riddle Master</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const generateBtn = document.getElementById('generate-btn');
+            const randomBtn = document.getElementById('random-btn');
+            const hintBtn = document.getElementById('hint-btn');
+            const showAnswerBtn = document.getElementById('show-answer-btn');
+            const solveBtn = document.getElementById('solve-btn');
+            const clearHistoryBtn = document.getElementById('clear-history');
+            const difficultySelect = document.getElementById('difficulty');
+            const topicSelect = document.getElementById('topic');
+            const styleSelect = document.getElementById('style');
+            const riddleText = document.getElementById('riddle-text');
+            const answerText = document.getElementById('answer');
+            const loader = document.getElementById('loader');
+            const riddleContent = document.getElementById('riddle-content');
+            const placeholder = document.querySelector('.placeholder');
+            const answerContainer = document.getElementById('answer-container');
+            const riddleTopic = document.getElementById('riddle-topic');
+            const riddleDifficulty = document.getElementById('riddle-difficulty');
+            const historyList = document.getElementById('history-list');
+            const toast = document.getElementById('toast');
+            const ratingButtons = document.querySelectorAll('.rating-btn');
+            const totalRiddlesSpan = document.getElementById('total-riddles');
+            const avgRatingSpan = document.getElementById('avg-rating');
+            const correctAnswersSpan = document.getElementById('correct-answers');
+            
+            // App State
+            let currentRiddle = null;
+            let riddlesHistory = JSON.parse(localStorage.getItem('riddlesHistory')) || [];
+            let stats = JSON.parse(localStorage.getItem('stats')) || {
+                totalRiddles: 0,
+                totalRating: 0,
+                totalSolved: 0
+            };
+            
+            // Initialize
+            updateStatsDisplay();
+            renderHistory();
+            
+            // Event Listeners
+            generateBtn.addEventListener('click', generateRiddle);
+            randomBtn.addEventListener('click', generateRandomRiddle);
+            hintBtn.addEventListener('click', getHint);
+            showAnswerBtn.addEventListener('click', toggleAnswer);
+            solveBtn.addEventListener('click', markAsSolved);
+            clearHistoryBtn.addEventListener('click', clearHistory);
+            ratingButtons.forEach(btn => btn.addEventListener('click', rateRiddle));
+            
+            // Functions
+            async function generateRiddle() {
+                const difficulty = difficultySelect.value;
+                const topic = topicSelect.value;
+                const style = styleSelect.value;
+                
+                try {
+                    // UI Loading state
+                    startLoading();
+                    
+                    // Prepare the prompt
+                    const prompt = `Generate a technical riddle about ${topic} with ${difficulty} difficulty level.
+                        The riddle should be in a ${style} style and require technical knowledge to solve.
+                        Include a hint that would help someone figure out the answer.
+                        Format the response as JSON with these keys:
+                        {
+                            "riddle": "The riddle text",
+                            "answer": "The correct answer",
+                            "hint": "A helpful hint",
+                            "explanation": "Brief explanation of why this is the answer"
+                        }
+                        Example:
+                        {
+                            "riddle": "I'm a process that helps avoid repetition, DRY is my best friend. What am I?",
+                            "answer": "The DRY principle (Don't Repeat Yourself) in software development",
+                            "hint": "Think about programming principles that help maintain clean code",
+                            "explanation": "DRY is a software development principle aimed at reducing repetition."
+                        }`;
+                    
+                    // Call the API (simulated in this example)
+                    // In a real app, you would use fetch() with your API key
+                    const response = await simulateApiCall(prompt);
+                    
+                    // Process the response
+                    let riddleData;
+                    try {
+                        const cleanContent = response.replace(/```json|```/g, '').trim();
+                        riddleData = JSON.parse(cleanContent);
+                    } catch (e) {
+                        // Fallback parsing if JSON is malformed
+                        riddleData = extractRiddleData(response);
+                    }
+                    
+                    // Set current riddle
+                    currentRiddle = {
+                        ...riddleData,
+                        difficulty,
+                        topic,
+                        style,
+                        generatedAt: new Date().toISOString(),
+                        solved: false,
+                        rating: 0
+                    };
+                    
+                    // Display the riddle
+                    displayRiddle(currentRiddle);
+                    
+                    // Enable hint button
+                    hintBtn.disabled = false;
+                    
+                } catch (error) {
+                    console.error('Error generating riddle:', error);
+                    showToast('Failed to generate riddle. Please try again.', 'error');
+                } finally {
+                    stopLoading();
+                }
+            }
+            
+            function generateRandomRiddle() {
+                // Set random values for all selectors
+                const difficulties = ['easy', 'medium', 'hard', 'expert'];
+                const topics = ['programming', 'algorithms', 'databases', 'networking', 
+                               'cybersecurity', 'ai', 'system-design', 'linux'];
+                const styles = ['classic', 'humorous', 'poetic', 'metaphorical'];
+                
+                difficultySelect.value = difficulties[Math.floor(Math.random() * difficulties.length)];
+                topicSelect.value = topics[Math.floor(Math.random() * topics.length)];
+                styleSelect.value = styles[Math.floor(Math.random() * styles.length)];
+                
+                // Trigger generation
+                generateBtn.classList.add('shake');
+                setTimeout(() => generateBtn.classList.remove('shake'), 500);
+                generateRiddle();
+            }
+            
+            function getHint() {
+                if (!currentRiddle) return;
+                
+                showToast(`💡 Hint: ${currentRiddle.hint}`, 'success');
+                hintBtn.disabled = true;
+            }
+            
+            function toggleAnswer() {
+                answerContainer.classList.toggle('show');
+                showAnswerBtn.innerHTML = answerContainer.classList.contains('show') 
+                    ? '<i class="fas fa-eye-slash"></i> Hide Answer' 
+                    : '<i class="fas fa-eye"></i> Reveal Answer';
+                
+                if (answerContainer.classList.contains('show')) {
+                    // Log that user viewed the answer
+                    if (!currentRiddle.viewedAnswer) {
+                        currentRiddle.viewedAnswer = true;
+                        // In a real app, you might want to update this in storage
+                    }
+                }
+            }
+            
+            function markAsSolved() {
+                if (!currentRiddle) return;
+                
+                currentRiddle.solved = true;
+                stats.totalSolved++;
+                updateStats();
+                
+                solveBtn.innerHTML = '<i class="fas fa-check-double"></i> Solved!';
+                solveBtn.classList.add('btn-secondary');
+                solveBtn.classList.remove('btn-accent');
+                solveBtn.disabled = true;
+                
+                showToast('🎉 Congratulations! You solved it!', 'success');
+            }
+            
+            function rateRiddle(e) {
+                if (!currentRiddle) return;
+                
+                const rating = parseInt(e.currentTarget.dataset.rating);
+                
+                // Update UI
+                ratingButtons.forEach((btn, index) => {
+                    if (index < rating) {
+                        btn.innerHTML = '<i class="fas fa-star"></i>';
+                        btn.classList.add('active');
+                    } else {
+                        btn.innerHTML = '<i class="far fa-star"></i>';
+                        btn.classList.remove('active');
+                    }
+                });
+                
+                // Update stats if rating changed
+                if (currentRiddle.rating !== rating) {
+                    stats.totalRating = stats.totalRating - currentRiddle.rating + rating;
+                    currentRiddle.rating = rating;
+                    updateStats();
+                    
+                    showToast(`⭐ Rated ${rating} star${rating > 1 ? 's' : ''}`, 'success');
+                }
+            }
+            
+            function displayRiddle(riddle) {
+                // Update UI elements
+                riddleText.textContent = riddle.riddle;
+                answerText.innerHTML = `<strong>${riddle.answer}</strong><br><br>${riddle.explanation || ''}`;
+                
+                // Update meta info
+                riddleTopic.textContent = formatTopic(riddle.topic);
+                riddleTopic.className = 'topic-tag';
+                riddleDifficulty.textContent = formatDifficulty(riddle.difficulty);
+                riddleDifficulty.className = 'difficulty-indicator ' + riddle.difficulty;
+                
+                // Reset buttons
+                solveBtn.innerHTML = '<i class="fas fa-check"></i> I Solved It!';
+                solveBtn.classList.remove('btn-secondary');
+                solveBtn.classList.add('btn-accent');
+                solveBtn.disabled = false;
+                
+                // Reset rating
+                ratingButtons.forEach(btn => {
+                    btn.innerHTML = '<i class="far fa-star"></i>';
+                    btn.classList.remove('active');
+                });
+                
+                // Hide answer initially
+                answerContainer.classList.remove('show');
+                showAnswerBtn.innerHTML = '<i class="fas fa-eye"></i> Reveal Answer';
+                
+                // Show the riddle content
+                placeholder.classList.add('hidden');
+                riddleContent.classList.remove('hidden');
+                
+                // Add to history if not already there
+                if (!riddlesHistory.some(item => item.riddle === riddle.riddle)) {
+                    riddlesHistory.unshift(riddle);
+                    if (riddlesHistory.length > 20) riddlesHistory.pop();
+                    saveHistory();
+                    renderHistory();
+                }
+                
+                // Update stats
+                stats.totalRiddles++;
+                updateStats();
+            }
+            
+            function renderHistory() {
+                if (riddlesHistory.length === 0) {
+                    historyList.innerHTML = '<div class="empty-history">No riddles generated yet. Your history will appear here.</div>';
+                    return;
+                }
+                
+                historyList.innerHTML = riddlesHistory.map(riddle => `
+                    <div class="history-item" data-id="${riddle.generatedAt}">
+                        <div class="history-item-content">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="topic-tag">${formatTopic(riddle.topic)}</span>
+                                <span class="difficulty-indicator ${riddle.difficulty}">${formatDifficulty(riddle.difficulty)}</span>
+                            </div>
+                            <p style="font-weight: 500;">${riddle.riddle.substring(0, 80)}${riddle.riddle.length > 80 ? '...' : ''}</p>
+                        </div>
+                        <div class="history-item-actions">
+                            ${riddle.rating > 0 ? `<span style="color: var(--warning);"><i class="fas fa-star"></i> ${riddle.rating}</span>` : ''}
+                            ${riddle.solved ? '<span style="color: var(--success);"><i class="fas fa-check"></i></span>' : ''}
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Add click event to history items
+                document.querySelectorAll('.history-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        const id = this.dataset.id;
+                        const riddle = riddlesHistory.find(r => r.generatedAt === id);
+                        if (riddle) {
+                            currentRiddle = riddle;
+                            displayRiddle(riddle);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            
+                            // Set rating if exists
+                            if (riddle.rating > 0) {
+                                ratingButtons.forEach((btn, index) => {
+                                    if (index < riddle.rating) {
+                                        btn.innerHTML = '<i class="fas fa-star"></i>';
+                                        btn.classList.add('active');
+                                    }
+                                });
+                            }
+                            
+                            // Update solve button if solved
+                            if (riddle.solved) {
+                                solveBtn.innerHTML = '<i class="fas fa-check-double"></i> Solved!';
+                                solveBtn.classList.add('btn-secondary');
+                                solveBtn.classList.remove('btn-accent');
+                                solveBtn.disabled = true;
+                            }
+                        }
+                    });
+                });
+            }
+            
+            function clearHistory() {
+                if (confirm('Are you sure you want to clear your riddle history?')) {
+                    riddlesHistory = [];
+                    saveHistory();
+                    renderHistory();
+                    showToast('History cleared', 'success');
+                }
+            }
+            
+            function updateStats() {
+                localStorage.setItem('stats', JSON.stringify(stats));
+                updateStatsDisplay();
+            }
+            
+            function updateStatsDisplay() {
+                totalRiddlesSpan.textContent = stats.totalRiddles;
+                correctAnswersSpan.textContent = stats.totalSolved;
+                
+                const avgRating = stats.totalRiddles > 0 
+                    ? (stats.totalRating / stats.totalRiddles).toFixed(1) 
+                    : '0';
+                avgRatingSpan.textContent = avgRating;
+            }
+            
+            function saveHistory() {
+                localStorage.setItem('riddlesHistory', JSON.stringify(riddlesHistory));
+            }
+            
+            function startLoading() {
+                loader.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+                riddleContent.classList.add('hidden');
+                generateBtn.disabled = true;
+            }
+            
+            function stopLoading() {
+                loader.classList.add('hidden');
+                generateBtn.disabled = false;
+            }
+            
+            function showToast(message, type = 'success') {
+                toast.textContent = message;
+                toast.className = `toast ${type}`;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            
+            function formatDifficulty(difficulty) {
+                return difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+            }
+            
+            function formatTopic(topic) {
+                const topicMap = {
+                    'programming': 'Programming',
+                    'algorithms': 'Algorithms',
+                    'databases': 'Databases',
+                    'networking': 'Networking',
+                    'cybersecurity': 'Cybersecurity',
+                    'ai': 'AI/ML',
+                    'system-design': 'System Design',
+                    'linux': 'Linux'
+                };
+                return topicMap[topic] || topic;
+            }
+            
+            // Helper function to extract riddle data from malformed JSON
+            function extractRiddleData(content) {
+                const riddleMatch = content.match(/"riddle"\s*:\s*["']?(.+?)["']?[,}]/i) || 
+                                    content.match(/riddle\s*:\s*["']?(.+?)["']?[,}]/i);
+                const answerMatch = content.match(/"answer"\s*:\s*["']?(.+?)["']?[,}]/i) || 
+                                   content.match(/answer\s*:\s*["']?(.+?)["']?[,}]/i);
+                const hintMatch = content.match(/"hint"\s*:\s*["']?(.+?)["']?[,}]/i) || 
+                                  content.match(/hint\s*:\s*["']?(.+?)["']?[,}]/i);
+                const explanationMatch = content.match(/"explanation"\s*:\s*["']?(.+?)["']?[,}]/i) || 
+                                        content.match(/explanation\s*:\s*["']?(.+?)["']?[,}]/i);
+                
+                return {
+                    riddle: riddleMatch ? riddleMatch[1] : "Could not parse riddle",
+                    answer: answerMatch ? answerMatch[1] : "Answer not available",
+                    hint: hintMatch ? hintMatch[1] : "No hint available",
+                    explanation: explanationMatch ? explanationMatch[1] : ""
+                };
+            }
+            
+            // Simulated API call for demonstration
+            async function simulateApiCall(prompt) {
+                // In a real app, replace this with actual API call
+                console.log("Prompt sent to API:", prompt);
+                
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Sample responses for different topics
+                const topic = prompt.match(/about (.*?) with/) ? prompt.match(/about (.*?) with/)[1] : 'programming';
+                const difficulty = prompt.match(/with (.*?) difficulty/) ? prompt.match(/with (.*?) difficulty/)[1] : 'medium';
+                const style = prompt.match(/in a (.*?) style/) ? prompt.match(/in a (.*?) style/)[1] : 'classic';
+                
+                const responses = {
+                    programming: {
+                        easy: `{
+                            "riddle": "I'm a fundamental building block of programs. I can hold numbers, text, or true/false values. What am I?",
+                            "answer": "A variable",
+                            "hint": "Think about how data is stored in code",
+                            "explanation": "Variables are used to store data values in programming languages."
+                        }`,
+                        medium: `{
+                            "riddle": "I'm a process that helps avoid repetition, DRY is my best friend. What am I?",
+                            "answer": "The DRY principle (Don't Repeat Yourself) in software development",
+                            "hint": "Think about programming principles that help maintain clean code",
+                            "explanation": "DRY is a software development principle aimed at reducing repetition."
+                        }`,
+                        hard: `{
+                            "riddle": "I'm a technique where a function calls itself. Elegant but dangerous if not handled with care. What am I?",
+                            "answer": "Recursion",
+                            "hint": "Think about functions that reference themselves",
+                            "explanation": "Recursion is a method where the solution to a problem depends on solutions to smaller instances of the same problem."
+                        }`,
+                        expert: `{
+                            "riddle": "I'm a programming paradigm where computation is the evaluation of mathematical functions, avoiding changing-state and mutable data. What am I?",
+                            "answer": "Functional programming",
+                            "hint": "Think about programming styles that emphasize pure functions",
+                            "explanation": "Functional programming treats computation as the evaluation of mathematical functions and avoids changing-state and mutable data."
+                        }`
+                    },
+                    algorithms: {
+                        easy: `{
+                            "riddle": "I'm a simple sorting algorithm that works by repeatedly swapping adjacent elements if they are in the wrong order. What am I?",
+                            "answer": "Bubble sort",
+                            "hint": "Think about the simplest sorting algorithms",
+                            "explanation": "Bubble sort is a basic algorithm that sorts by comparing adjacent elements and swapping them if they're in the wrong order."
+                        }`,
+                        medium: `{
+                            "riddle": "I'm a problem where you must find the shortest path between nodes in a graph. My name comes from a Dutch computer scientist. What am I?",
+                            "answer": "Dijkstra's algorithm",
+                            "hint": "Think about graph traversal algorithms",
+                            "explanation": "Dijkstra's algorithm finds the shortest paths between nodes in a graph."
+                        }`,
+                        hard: `{
+                            "riddle": "I'm an algorithm design paradigm that breaks problems into smaller subproblems, solves each once, and stores the solutions. What am I?",
+                            "answer": "Dynamic programming",
+                            "hint": "Think about optimization techniques that store intermediate results",
+                            "explanation": "Dynamic programming solves complex problems by breaking them down into simpler subproblems and storing their solutions."
+                        }`
+                    }
+                };
+                
+                // Default response if no specific match
+                const defaultResponse = `{
+                    "riddle": "I'm a fundamental concept in ${topic} that's essential for ${difficulty} level understanding. Can you guess what I am?",
+                    "answer": "A core ${topic} concept",
+                    "hint": "Think about the basics of ${topic}",
+                    "explanation": "This is a placeholder response for the ${topic} topic at ${difficulty} difficulty level."
+                }`;
+                
+                return responses[topic]?.[difficulty] || defaultResponse;
+            }
+        });
+    </script>
+</body>
+</html>
